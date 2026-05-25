@@ -1,0 +1,17 @@
+# Virtual environment — never commit this
+venv/
+
+# Python bytecode — generated automatically, not source code
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment variables — may contain secrets
+.env
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
