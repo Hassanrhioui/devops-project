@@ -1,0 +1,24 @@
+# Virtual environment — not needed in the container
+# The container installs its own dependencies via pip
+venv/
+
+# Git history — not needed in the image
+.git/
+.gitignore
+
+# Docker files themselves
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Python bytecode
+__pycache__/
+*.pyc
+*.pyo
+
+# Test files — not needed in production image
+tests/
+
+# Editor files
+.vscode/
+.idea/
