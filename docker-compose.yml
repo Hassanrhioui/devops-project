@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  web:
+    # Build the image from the Dockerfile in the current directory
+    build: .
+
+    # Name the running container for easy reference
+    container_name: devops-project-web
+
+    # Map port 5000 on your host machine to port 5000 inside the container.
+    # Format: "host_port:container_port"
+    # After this, http://localhost:5000 on your machine reaches Flask inside the container.
+    ports:
+      - "5000:5000"
+
+    # Mount your local code directory into the container at /app.
+    # This means changes you make to your code are reflected inside
+    # the container immediately — without rebuilding the image.
+    # For development only — never use this in production.
+    volumes:
+      - .:/app
+
+    # Set environment variables inside the container.
+    # FLASK_ENV=development enables Flask's development mode.
+    environment:
+      - FLASK_ENV=development
+
+    # Restart policy: restart the container automatically if it crashes.
+    # 'unless-stopped' means it restarts on crash or system reboot,
+    # but not if you manually stop it with 'docker compose down'.
+    restart: unless-stopped
