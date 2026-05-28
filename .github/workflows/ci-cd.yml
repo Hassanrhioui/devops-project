@@ -86,9 +86,8 @@ jobs:
           cache-from: type=registry,ref=hassan23rh/devops-project:buildcache
           cache-to: type=registry,ref=hassan23rh/devops-project:buildcache,mode=max
 
-       env:
-  IMAGE_NAME: hassan23rh/devops-project
-
-permissions:
-  contents: read
-  packages: write
+    env:
+      IMAGE_NAME: hassan23rh/devops-project
+    permissions:
+      contents: read
+      packages: write
