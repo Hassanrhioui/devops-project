@@ -8,7 +8,10 @@ name: CI/CD Pipeline
   pull_request:
     branches:
       - main
-
+  schedule:
+    - cron: '0 0 1 * *'
+    # Runs at midnight on the 1st of every month
+    # Pulls the image to reset the inactivity timer
 env:
   IMAGE_NAME: hassan23rh/devops-project
 
