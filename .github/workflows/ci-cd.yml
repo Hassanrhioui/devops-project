@@ -95,4 +95,4 @@ jobs:
 
     steps:
       - name: Run deploy script
-        run: /home/deploy/deploy.sh
+        run: /home/hassanrh/deploy.sh
