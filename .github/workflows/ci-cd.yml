@@ -10,10 +10,13 @@ name: CI/CD Pipeline
       - main
   schedule:
     - cron: '0 0 1 * *'
-    # Runs at midnight on the 1st of every month
-    # Pulls the image to reset the inactivity timer
+
 env:
   IMAGE_NAME: hassan23rh/devops-project
+
+permissions:
+  contents: read
+  packages: write
 
 jobs:
 
@@ -48,38 +51,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Log in to Docker Hub
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-  deploy:
-    name: Deploy to Server
-    runs-on: ubuntu-latest
-    needs: build-and-push
-    if: github.ref == 'refs/heads/main'
-
-    steps:
-      - name: Deploy to Ubuntu Server via SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          # ── Connection details ──────────────────────────────
-          # These are read from your GitHub Secrets
-          host: ${{ secrets.SERVER_HOST }}
-          username: ${{ secrets.SERVER_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-
-          # ── Command to run on the server ────────────────────
-          # Runs the deploy script you created in Step 3
-          script: |
-            /home/deploy/deploy.sh
-
-      # Log in to GitHub Container Registry
-      # GITHUB_TOKEN is automatically provided by GitHub Actions
-      # No secret setup required — GitHub handles it automatically
       - name: Log in to GitHub Container Registry
         uses: docker/login-action@v3
         with:
@@ -94,7 +71,6 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          # Push to both Docker Hub and GHCR simultaneously
           images: |
             hassan23rh/devops-project
             ghcr.io/hassanrhioui/devops-project
@@ -111,8 +87,12 @@ jobs:
           cache-from: type=registry,ref=hassan23rh/devops-project:buildcache
           cache-to: type=registry,ref=hassan23rh/devops-project:buildcache,mode=max
 
-    env:
-      IMAGE_NAME: hassan23rh/devops-project
-    permissions:
-      contents: read
-      packages: write
+  deploy:
+    name: Deploy to Server
+    runs-on: self-hosted
+    needs: build-and-push
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Run deploy script
+        run: /home/deploy/deploy.sh
