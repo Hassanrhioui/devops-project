@@ -96,3 +96,15 @@ jobs:
     steps:
       - name: Run deploy script
         run: /home/hassanrh/deploy.sh
+
+      - name: Verify deployment health
+        run: |
+          echo "Waiting for app to start..."
+          sleep 5
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" http://localhost/status)
+          echo "Health check returned: $STATUS"
+          if [ "$STATUS" != "200" ]; then
+            echo "DEPLOYMENT FAILED - App not responding"
+            exit 1
+          fi
+          echo "DEPLOYMENT SUCCESS - App is healthy"

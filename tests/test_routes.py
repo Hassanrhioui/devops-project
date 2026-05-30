@@ -25,7 +25,20 @@ def test_health_check_returns_200(client):
     assert response.status_code == 200
 
 
-def test_health_check_status_healthy(client):
+def test_health_check_has_status(client):
     response = client.get('/health')
     data = response.get_json()
     assert data['status'] == 'healthy'
+
+
+def test_health_check_has_uptime(client):
+    response = client.get('/health')
+    data = response.get_json()
+    assert 'uptime' in data
+
+
+def test_status_endpoint(client):
+    response = client.get('/status')
+    assert response.status_code == 200
+    data = response.get_json()
+    assert data['ok'] is True
