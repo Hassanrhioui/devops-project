@@ -294,7 +294,7 @@ Building this project gave me hands-on experience with:
 IT Graduate — Finland
 
 - GitHub: [github.com/Hassanrhioui](https://github.com/Hassanrhioui)
-- LinkedIn: [linkedin.com/in/hassan-rhioui](https://linkedin.com/in/hassan-rhioui)
+- LinkedIn: [linkedin.com/in/hassan-rhioui](https://www.linkedin.com/in/rhioui-hassan-691387120/)
 
 ---
 
